@@ -1,0 +1,44 @@
+//----------------------------------------------------------------------------
+// File -------- main.cpp
+// Programmer -- Sabera Daqiq
+// 
+// This program converts prefix to infix
+//
+// This file contains only the main program.
+//----------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <fstream>
+using namespace std;
+#include "stackfunctions.h"
+//----------------------------------------------------------------------------
+// main program
+//----------------------------------------------------------------------------
+int main(){
+    ifstream inFile;
+    ofstream outFile;
+    string prefix;
+    string infix;
+    stringstack s;
+
+    inFile.open("program3in.txt");
+    if(inFile.fail()){
+		cout<<"Input file opening failed  "<<endl;
+		exit(1);
+    }
+	outFile.open("program3out.txt ");
+    if(outFile.fail()){
+		cout<<"Input file opening failed  "<<endl;
+		exit(1);
+	}
+    inFile>>prefix;
+    while(!inFile.eof()){
+         infix=toinfix(prefix);
+         outFile<<infix<<endl;
+         inFile>>prefix;
+    }
+    inFile.close();
+    outFile.close();
+    return 0;
+}

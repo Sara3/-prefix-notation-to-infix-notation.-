@@ -1,0 +1,212 @@
+//----------------------------------------------------------------------------
+// File -------- stackfunctions.cpp
+// Programmer -- Sabera Daqiq
+
+// 
+// This file contains the implementations of the class and the function declared in 
+// Header file
+// functions. See details in the box comments below.
+//----------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+using namespace std;
+#include "stackfunctions.h"
+//----------------------------------------------------------------------------
+// void stringstack::push(string newitem
+//   this function Pushes the new value to the stack
+//
+// Input parameters:
+//    newitem
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    none
+//----------------------------------------------------------------------------
+void stringstack::push(string newitem){
+	if(!isFull()){
+		size++;
+        list[size-1]= newitem;
+	}
+    return;
+}
+//----------------------------------------------------------------------------
+// string stringstack::pop()
+//   this function returns the last value from the stack and removes it
+//
+// Input parameters:
+//    value
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    list[size]
+//----------------------------------------------------------------------------
+string stringstack::pop(){
+	if(size>0){
+		size--;
+		return list[size];
+	}
+	return 0;
+}
+//----------------------------------------------------------------------------
+// dbool stringstack::isEmpty()const
+//   this function checks if the stack is empty
+//
+// Input parameters:
+//    none
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    size
+//----------------------------------------------------------------------------
+bool stringstack::isEmpty()const{
+	return size==-1;
+}
+//----------------------------------------------------------------------------
+// bool stringstack::isFull()const
+//   this function checks if the stack if Full
+//
+// Input parameters:
+//    value
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    size+1==CAPACITY
+//----------------------------------------------------------------------------
+bool stringstack::isFull()const{
+	return size+1==CAPACITY;
+}
+//---------------------------------------------------------------------------
+// string stringstack::peek () const
+//   this function shows the last value of the stack
+//
+// Input parameters:
+//    value
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    list[size-1]
+//----------------------------------------------------------------------------
+string stringstack::peek () const{
+	return list[size-1];
+}
+//----------------------------------------------------------------------------
+// stringstack::stringstack()
+//   this function is a constractor
+//
+// Input parameters:
+//    none
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    none
+//----------------------------------------------------------------------------
+stringstack::stringstack(){
+	size=0;
+	return;
+}
+//----------------------------------------------------------------------------
+// void stringstack::show()const
+//   this function shows the contain of the stack
+//
+// Input parameters:
+//   none
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    none
+//----------------------------------------------------------------------------
+void stringstack::show()const{
+	for (int i=size; i>=0; i--){
+		cout<<"["<<i<<"] "<<list[i]<<endl;
+	}
+	cout<<"size:  "<<size<<endl;
+    return;
+}
+//----------------------------------------------------------------------------
+// int stringstack::getsize() const
+//   this function return the size
+//
+// Input parameters:
+//    value
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    size
+//----------------------------------------------------------------------------
+int stringstack::getsize() const{
+	return size;
+}
+//----------------------------------------------------------------------------
+// bool stringstack::isOperator(char item) const
+//   this function checks of the entry is an operator
+//
+// Input parameters:
+//    item
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    item
+//----------------------------------------------------------------------------
+bool stringstack::isOperator(char item) const{
+	return item== '*' || item == '/' || item == '+' || item == '-';
+}
+//----------------------------------------------------------------------------
+// string toinfix(string prefix)
+//   converts the prefix to infix
+//
+// Input parameters:
+//    prefix
+//
+// Output parameters:
+//    None
+// 
+// Return value:
+//    s.pop()
+//----------------------------------------------------------------------------
+string toinfix(string prefix){
+	stringstack s;
+	string item1;
+	string item2;
+	string item3;
+	string result;
+	for (int i=prefix.length()-1;i>=0; i--){
+		if (s.isOperator(prefix[i])){
+			if (s.getsize()>=2){
+                item1=s.pop();
+                item2=s.pop();
+                result="("+item1+prefix[i]+item2+")";
+                s.push(result);
+            }
+			else 
+               return "("+prefix+")"+"  This entry is not right!";	 
+       }
+		else {
+			item3=prefix[i];
+			s.push(item3);
+		}
+	}
+	if (s.getsize()==1){
+        return s.pop();
+	}
+	else
+		return  "("+prefix+")"+"  There are more than one entry in the stack";
+}
+    
